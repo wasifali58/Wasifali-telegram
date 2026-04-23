@@ -1,11 +1,10 @@
 import axios from 'axios';
 
-// Cache responses to avoid repeated API calls
+// Cache responses
 const cache = new Map();
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
 async function getTelegramInfo(username) {
-  // Remove @ if present
   const cleanUsername = username.replace('@', '');
   
   // Check cache
@@ -32,7 +31,6 @@ async function getTelegramInfo(username) {
       processing_time: response.data.processing_time || "N/A"
     };
     
-    // Cache the result
     cache.set(cleanUsername, {
       data: result,
       timestamp: Date.now()
@@ -60,7 +58,6 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   res.setHeader('Content-Type', 'application/json');
   
-  // Pretty print if ?pretty=true
   const pretty = req.query.pretty === 'true';
   
   if (req.method === 'OPTIONS') {
@@ -75,8 +72,8 @@ export default async function handler(req, res) {
       developer: "WASIF ALI",
       telegram: "@FREEHACKS95",
       endpoints: {
-        info: "/api/info?username=@FREEHACKS95",
-        pretty: "/api/info?username=@FREEHACKS95&pretty=true"
+        info: "/api/info?username=FREEHACKS95",
+        pretty: "/api/info?username=FREEHACKS95&pretty=true"
       },
       example: "https://your-api.vercel.app/api/info?username=FREEHACKS95"
     };
@@ -84,7 +81,7 @@ export default async function handler(req, res) {
     return res.status(200).json(homeResponse);
   }
   
-  // Get username from query
+  // Get username
   let { username } = req.query;
   
   if (!username) {
@@ -99,12 +96,9 @@ export default async function handler(req, res) {
     return res.status(400).json(error);
   }
   
-  // Fetch user info
   const data = await getTelegramInfo(username);
   
-  // Pretty print if requested
   if (pretty) {
-    res.setHeader('Content-Type', 'application/json');
     return res.status(200).send(JSON.stringify(data, null, 2));
   }
   
