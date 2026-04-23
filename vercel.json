@@ -1,0 +1,22 @@
+{
+  "functions": {
+    "api/info.js": {
+      "runtime": "nodejs18.x",
+      "maxDuration": 30
+    }
+  },
+  "routes": [
+    {
+      "src": "/api/info",
+      "dest": "/api/info.js"
+    },
+    {
+      "src": "/tg/(.*)",
+      "dest": "/api/info.js?username=$1"
+    },
+    {
+      "src": "/",
+      "dest": "/api/info.js"
+    }
+  ]
+}
