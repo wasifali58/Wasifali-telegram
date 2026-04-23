@@ -5,13 +5,14 @@
   "description": "Telegram User Info API by WASIF ALI",
   "main": "api/info.js",
   "engines": {
-    "node": "18.x"
+    "node": "24.x"
   },
   "scripts": {
+    "start": "node api/info.js",
     "dev": "node api/info.js"
   },
   "dependencies": {
-    "axios": "^1.6.5"
+    "axios": "^1.7.9"
   },
   "author": "WASIF ALI",
   "license": "MIT"
